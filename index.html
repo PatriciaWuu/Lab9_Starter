@@ -86,22 +86,175 @@
       <button>Trigger a Global Error</button>
     </section>
   </main>
-
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+<script>
+  window.TrackJS && TrackJS.install({ 
+    token: "b28c0ca6367a47a7b4711c612996c376"
+    // for more configuration options, see https://docs.trackjs.com
+  });
+</script>
+                        
+                          
   <script>
+    TrackJS.track('Testing TrackJS!');                        
+    class Error {
+    constructor(output) {
+    this.output = output;
+    this.name = "Error"; // (different names for different built-in error classes)
+    //this.stack = <call stack>; // non-standard, but most environments support it
+  }
+}
+
+class ValidationError extends Error {
+  constructor(output) {
+    super("No property: " + output);
+    this.output = output;
+    this.name = "DIVISIONERROR";
+  }
+}
+function inputCheck(input1,input2,input3 ){
+  if(input2 == '/'){
+    if(input3 == 0)
+      throw new ValidationError("the divisor can not be 0");
+  }
+  return input2;
+}
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
       let output = document.querySelector('output');
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
-      let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
-    });
-
-    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
-
-    // Start your code here
+      let operator = document.querySelector('#operator').value;    
+      //part3  
+       
+// Start your code here
     // You may move this JS to another file if you wish
+    try{
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      }
+      catch{
+        
+          alert("The input can not contain letter");
+      }
+      //part4
+      try{
+          var user = inputCheck(firstNum, operator, secondNum);
+      }
+        catch(err){
+         if(err instanceof ValidationError) {
+           alert("Invalid data: " + err.output); // Invalid data: No property: name
+          alert(err.name); // PropertyRequiredError
+  }
+  
+}
+    
+    }); 
+       
+   
+    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
+    //let listt = document.getElementById('error-btns');
+    // <button>Console Log</button>
+   // console.log(listt);
+    errorBtns[0].addEventListener('click', function(){
+      console.log("Console Log demo");
+    })
+    //   <button>Console Error</button>
+    errorBtns[1].addEventListener('click', function(){
+      console.error("I'm sorry. I'm afraid I can't do that.");
+    })
+    //   <button>Console Count</button>
+    errorBtns[2].addEventListener('click', function(){
+      console.count();
+    })
+    //   <button>Console Warn</button>
+    errorBtns[3].addEventListener('click', function(){
+      console.warn("warning");
+    })
+    //   <button>Console Assert</button>
+    errorBtns[4].addEventListener('click', function(){
+      const f = 3;
+      const s = 3;
+      const reason = 'x is expected to be equal to y';
+      console.assert(f != s, {f, s, reason});
+
+    })
+    //   <button>Console Clear</button>
+    errorBtns[5].addEventListener('click', function(){
+      
+      console.clear();
+
+    })
+    //   <button>Console Dir</button>
+    errorBtns[6].addEventListener('click', function(){
+      
+      console.dir(document.body);
+    })
+    //   <button>Console dirxml</button>
+    errorBtns[7].addEventListener('click', function(){
+      
+      console.dirxml(document);
+    })
+    //   <button>Console Group Start</button>
+    var label = "label button";
+    errorBtns[8].addEventListener('click', function(){
+      
+      console.group(label);
+      console.log(errorBtns[1]);
+      console.log(errorBtns[2]);
+      console.log(errorBtns[3]);
+      console.log(errorBtns[4]);
+      //console.groupEnd(label);
+
+    })
+    //   <button>Console Group End</button>
+    errorBtns[9].addEventListener('click', function(){
+      console.groupEnd(label);
+
+    })
+    //   <button>Console Table</button>
+    errorBtns[10].addEventListener('click', function(){
+      console.table([
+  {
+    name: errorBtns[0].innerHTML,
+    type: 'info',
+  },
+  {
+    name: errorBtns[1].innerHTML,
+    type: 'error',
+    error: "yes",
+  },
+  {
+    name: errorBtns[1].innerHTML,
+    type: 'info',
+  }
+]);
+    })
+    //   <button>Start Timer</button>
+    errorBtns[11].addEventListener('click', function(){
+      console.time();
+    })
+    //   <button>End Timer</button>
+    errorBtns[12].addEventListener('click', function(){
+      console.timeEnd();
+    })
+
+    //   <button>Console Trace</button>
+    errorBtns[13].addEventListener('click', function(){
+      const recurisiveI = () => { recurisiveII(); };
+      const recurisiveII = () => { final(); };
+      const final = () => { console.trace(); };
+
+      recurisiveI();
+    })
+    //   <button>Trigger a Global Error</button>
+    errorBtns[14].addEventListener('click', function(){
+       const errorNum = 1;
+       errorNum = 2 ;
+    })
+    window.onerror = function(err){
+      console.log("Trigger a Global Error");
+    };
   </script>
 </body>
 
